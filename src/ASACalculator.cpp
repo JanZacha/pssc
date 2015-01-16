@@ -131,7 +131,6 @@ void ASACalculator::calculate()
     std::cerr <<  "probe_radius " <<  probe_radius << endl;
     std::cerr <<  "n_sphere_points " <<  n_sphere_points << endl;*/
     double factor = 4.0 * kPI / n_sphere_points;
-    double k_radius_for_asa_waterSQ = k_radius_for_asa_water * k_radius_for_asa_water;
     
     for (auto res: protein._residues)
     {

@@ -47,7 +47,7 @@ using std::istream;
 
 
 typedef irr::core::quaternion quaternion;
-typedef irr::core::vector3df vector3d;
+typedef irr::core::vector3d<irr::f64> vector3d;
 typedef irr::core::vector3di vector3i;
 
 class mas_exception : public std::exception

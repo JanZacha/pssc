@@ -169,8 +169,6 @@ VecResPair Protein::find_neighs_hash()
     VecResPair ret;
     std::unordered_map<vector3i,std::vector<const Atom*>,hash_vector3i> my_map;
     my_map.reserve(5000);
-    size_t n_collisions = 0;
-
     for (auto res: _residues)
     {
         if (!res->has_atom("CA"))
@@ -180,14 +178,6 @@ VecResPair Protein::find_neighs_hash()
 
         my_map[ ca1_pos ].push_back(&((*res)["CA"]));
     }
-
-    // count hash collisons for debug
-    /*for(auto kv : my_map)
-    {
-        if (kv.second.size())
-        n_collisions += kv.second.size() - 1;
-    }*/
-
     std::vector<vector3i> connected_fields = {
         {-1, -1, 0}, {0, -1, 0}, {1,-1, 0},
         {-1,  0, 0}, {0,  0, 0}, {1, 0, 0},
@@ -226,7 +216,6 @@ VecResPair Protein::find_neighs_hash()
         }
     }
     cerr  << "needed " << tries << " tries " << endl;
-    //cerr  << "got " << n_collisions << "hash collisions " << endl;
     return ret;
 }
 
@@ -248,13 +237,11 @@ bool Protein::assign_single_HB(Residue *res_donor, Residue *res_acceptor)
     HBond hb = HBond(*res_donor, *res_acceptor);
     if (hb.mEnergy > max_HB_energy)
         return false;
-    //cerr <<  hb <<  "to " << *res_donor <<  " and " <<  *res_acceptor<<  endl;
     mHbonds.push_back(hb);
     res_donor->HBond_donating.push_back(&(mHbonds.back()));
     res_acceptor->HBond_accepting.push_back(&(mHbonds.back()));
     return true;
 }
-
 
 void Protein::assign_turns()
 {
@@ -652,16 +639,14 @@ void  Protein::collect_for_dssp_ladders()
           //  cerr << "AP-dist: " << *last_bridge  <<  ":" <<   dist_last << endl;
            // cerr << "         " << *first_bridge <<  ":" <<  dist_first << endl;
             BetaBridge* bridge = last_bridge;
-            int start_i;
-            int end_i;
+            unsigned int start_i;
+            unsigned int end_i;
             assert(*bridge->res_b < *bridge->res_r);
             if (*bridge->res_b < *bridge->res_r)
             {
                 start_i = bridge->res_b->_total_res_no;
                 end_i   = bridge->res_r->_total_res_no;
-            }
-            else
-            {
+            } else {
                 end_i   = bridge->res_b->_total_res_no;
                 start_i = bridge->res_r->_total_res_no;
             }
@@ -670,7 +655,7 @@ void  Protein::collect_for_dssp_ladders()
             if (dist_last <= 5)
             {
                 assert(end_i-1 <_residues.size());
-                for (int i = start_i; i < end_i-1; ++i)
+                for (unsigned int i = start_i; i < end_i-1; ++i)
                 {
                     _residues[i]->ssi.values["beta-turn"] = 'T';
                 }
