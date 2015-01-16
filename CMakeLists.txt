@@ -9,7 +9,7 @@ set(BUILD_SHARED_LIBS OFF)
 
 SET(CMAKE_FIND_LIBRARY_SUFFIXES .a)
 
-PROJECT(cpppdbparser2 CXX C)
+PROJECT(pssc CXX C)
 
 FILE(GLOB pssc_src src/pssc_config.cpp
     "src/*.h"
