@@ -47,9 +47,9 @@ add_library(BZip2 STATIC IMPORTED)
 set_target_properties(ZLIB PROPERTIES LINK_SEARCH_END_STATIC 1)
  set_property(TARGET ZLIB PROPERTY IMPORTED_LOCATION /usr/lib/x86_64-linux-gnu/libbz2.a)
  
-INCLUDE_DIRECTORIES ( ${Boost_INCLUDE_DIRS} /home/zacha/git/cpppdbparser2/include )
-set(INCLUDE_DIRECTORIES /home/zacha/git/cpppdbparser2/include )
-
+INCLUDE_DIRECTORIES ( ${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/include )
+#set(INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include )
+message(INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include)
 FIND_PACKAGE ( Boost COMPONENTS thread filesystem program_options iostreams system date_time )
 
 FIND_PACKAGE ( Irrlicht )
